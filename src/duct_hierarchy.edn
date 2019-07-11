@@ -1,0 +1,3 @@
+{:duct.module/shadow-cljs [:duct/module]
+ :duct.server/shadow-cljs [:duct/server]
+ :duct.compiler/shadow-cljs [:duct/compiler]}

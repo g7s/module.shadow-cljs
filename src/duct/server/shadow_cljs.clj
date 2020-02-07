@@ -96,8 +96,9 @@
   [_ {:keys [logger] :as conf}]
   (let [conf (config/normalize conf)]
     (server/start! conf)
-    (doseq [{:keys [build-id] :as build-conf} (-> conf :builds vals)]
-      (watch-build build-conf {:logger logger}))))
+    (doseq [build-conf (-> conf :builds vals)]
+      (watch-build build-conf {:logger logger}))
+    conf))
 
 
 (defmethod ig/halt-key! :duct.server/shadow-cljs
@@ -111,6 +112,7 @@
 
 (defmethod ig/resume-key :duct.server/shadow-cljs
   [k new-shadow-conf old-shadow-conf old-impl]
-  (when-not (= new-shadow-conf old-shadow-conf)
+  (when-not (= (dissoc old-shadow-conf :logger :duct.core/requires)
+               (dissoc new-shadow-conf :logger :duct.core/requires))
     (ig/halt-key! k old-impl)
     (ig/init-key k new-shadow-conf)))

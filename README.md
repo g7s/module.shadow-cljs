@@ -1,22 +1,22 @@
-# Duct server.shadow
+# Duct module.shadow-cljs
 
-Integrant methods for compiling and dynamically reloading ClojureScript files in the Duct framework using shadow-cljs.
+A [Duct](https://github.com/duct-framework/duct) module for compiling and dynamically reloading ClojureScript files using [shadow-cljs](https://github.com/thheller/shadow-cljs).
 
 
 ## Installation
 
 To install, add the following to your project `:dependencies`:
 
-    [g7s/server.shadow "0.1.0"]
+    [g7s/module.shadow-cljs "0.1.1"]
 
 
 ## Usage
 
-This library provides the `:duct.server/shadow` key, and accepts the
-same options as shadow-cljs.
+This library provides the `:duct.module/shadow-cljs` key, and accepts the
+same options as [shadow-cljs](https://shadow-cljs.github.io/docs/UsersGuide.html).
 
 ```edn
-{:duct.server/shadow
+{:duct.module/shadow-cljs
  {:source-paths ["src"]
   :builds {:app {:id :dev
                  :source-paths  ["src"]
@@ -28,7 +28,7 @@ same options as shadow-cljs.
 
 ## License
 
-Copyright © 2019 g7s
+Copyright © 2020 Gerasimos
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.

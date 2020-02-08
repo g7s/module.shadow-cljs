@@ -1,5 +1,7 @@
 # Duct module.shadow-cljs
 
+[![Clojars Project](https://img.shields.io/clojars/v/g7s/module.shadow-cljs.svg)](https://clojars.org/g7s/module.shadow-cljs)
+
 A [Duct](https://github.com/duct-framework/duct) module for compiling and dynamically reloading ClojureScript files using [shadow-cljs](https://github.com/thheller/shadow-cljs).
 
 

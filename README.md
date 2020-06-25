@@ -15,36 +15,64 @@ To install, add the following to your project `:dependencies`:
 ## Usage
 
 This library provides the `:duct.module/shadow-cljs` key, and accepts the
-same options as [shadow-cljs](https://shadow-cljs.github.io/docs/UsersGuide.html).
+same options as [shadow-cljs](https://shadow-cljs.github.io/docs/UsersGuide.html)
+as well as an (optional) `:logger` top-level key that is a `:duct/logger` that will
+be used to log information about your builds in development.
 
-Example:
+Additionally it defines two other keys namely `:duct.server/shadow-cljs` and `:duct.compiler/shadow-cljs`.
+
+### Server
+
+The server key `:duct.server/shadow-cljs` is used to start a shadow-cljs server for use in the development phase of your project.
+If you want to make changes in the main `:duct.module/shadow-cljs` you should use this key in your development profile configuration.
+
+### Compiler
+
+The compiler key inherits from `:duct/compiler` and it is used only when compiling your code for a release.
+If you want to make changes in the main `:duct.module/shadow-cljs` you should use this key in your production profile configuration.
+
+### Example
+
+Example module configuration:
 
 ```edn
-{:duct.module/shadow-cljs
- {:builds
-  {:app
-   {:target     :browser
-    :output-dir "target/resources/my/app/web/public/js"
-    :asset-path "/js"
-    :devtools   {:watch-dir      "resources/my/app/web/public"
-                 :watch-options  {:verbose   true
-                                  :autobuild true}
-                 :browser-inject :common}
-    :modules
-    {:base {:entries [cljs.core]}
+:duct.module/shadow-cljs
+{:builds
+ {:app
+  {:target     :browser
+   :output-dir "target/resources/my/app/web/public/js"
+   :asset-path "/js"
+   :devtools   {:watch-dir      "resources/my/app/web/public"
+                :watch-options  {:verbose   true
+                                 :autobuild true}
+                :browser-inject :common}
+   :modules
+   {:base {:entries [cljs.core]}
 
-     :common {:entries    [my.app.utils]
-              :depends-on #{:base}}
+    :common {:entries    [my.app.utils]
+             :depends-on #{:base}}
 
-     :mod {:entries    [my.app.mod]
-           :depends-on #{:common}}
+    :mod {:entries    [my.app.mod]
+          :depends-on #{:common}}
 
-     :mod-worker {:entries    [my.app.mod.worker]
-                  :depends-on #{:base}
-                  :web-worker true}
+    :mod-worker {:entries    [my.app.mod.worker]
+                 :depends-on #{:base}
+                 :web-worker true}
 
-     :pages {:entries    [my.app.pages.personal]
-             :depends-on #{:common}}}}}}}
+    :pages {:entries    [my.app.pages]
+            :depends-on #{:common}}}}}}
+```
+
+Override in development profile:
+
+```edn
+:duct.server/shadow-cljs
+{:logger           #ig/ref :duct/logger
+ :compiler-options {:output-feature-set :es5}
+ :builds
+ {:app
+  {:closure-defines {goog.DEBUG true}
+   :devtools        {:preloads [devtools.preload]}}}}
 ```
 
 ## License

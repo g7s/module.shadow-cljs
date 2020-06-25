@@ -7,7 +7,7 @@
 (defn cljs-repl
   ([]
    (cljs-repl (-> config
-                  (get-in [:duct.module.shadow-cljs/server :builds])
+                  (get-in [:duct.server/shadow-cljs :builds])
                   keys
                   first)))
   ([build-id]

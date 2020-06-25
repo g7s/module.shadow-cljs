@@ -27,5 +27,7 @@
 (defmethod ig/init-key :duct.compiler/shadow-cljs
   [_ {:keys [logger] :as conf}]
   (let [conf (config/normalize conf)]
-    (doseq [build-conf (-> conf :builds vals)]
-      (release-build build-conf {:logger logger}))))
+    (shadow/with-runtime
+      (doseq [build-conf (-> conf :builds vals)]
+        (release-build build-conf {:logger logger}))
+      :done)))
